@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Install dependencies
-        run: npm ci
+      - name: Install site build dependencies
+        run: npm install --no-save --package-lock=false vite@8.0.13 @vitejs/plugin-react@6.0.2 react@19.2.6 react-dom@19.2.6 motion@14.4.0 embla-carousel-react@8.6.0 lucide-react@1.31.0
       - name: Build static site
         run: npm run build:pages
       - uses: actions/upload-pages-artifact@v3
