@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+const base='http://127.0.0.1:5173';
+const login=await fetch(base+'/signin-with-chatgpt?return_to=/admin',{redirect:'manual'});
+const cookie=login.headers.getSetCookie().map(s=>s.split(';')[0]).join('; ');
+let passed=0;
+async function call(path,method='GET',data,auth=true){const res=await fetch(base+'/api/'+path,{method,headers:{...(auth?{cookie}:{}),...(method!=='GET'?{origin:base}:{}),...(!(data instanceof FormData)?{'content-type':'application/json'}:{})},body:data===undefined?undefined:data instanceof FormData?data:JSON.stringify(data)});return {status:res.status,body:await res.json()};}
+function check(name,condition){assert.ok(condition,name);passed++;console.log('PASS '+name);}
+let r=await call('admin');check('authenticated administration',r.status===200);
+r=await call('admin','GET',undefined,false);check('anonymous administration rejected',r.status===403);
+r=await call('catalog');check('11 persistent Instagram dresses',r.body.dresses.length===11);
+const dress=r.body.dresses[0];
+const changed={...dress,name:dress.name+' TEST'};
+r=await call('admin/dress','PUT',changed);check('dress update',r.status===200);
+r=await call('catalog');check('update persisted',r.body.dresses.find(d=>d.id===dress.id).name===changed.name);
+await call('admin/dress','PUT',dress);
+r=await call('admin/dress','PUT',{...dress,images:[],published:true});check('published dress requires photo',r.status===400);
+const sample={id:crypto.randomUUID(),kind:'Atendimento',name:'Teste local de agenda',phone:'35999999999',date:'2099-11-20',time:'14:00',occasion:'Teste de integração',consent:true,notes:'Dados de teste exclusivamente locais.'};
+r=await call('inquiries','POST',{...sample,consent:false});check('consent validation',r.status===400);
+r=await call('inquiries','POST',{...sample,date:'2000-01-01'});check('past date rejected',r.status===400);
+r=await call('inquiries','POST',sample);check('appointment persisted pending confirmation',r.status===201&&r.body.status==='Aguardando confirmação');
+await call('inquiries','POST',sample);
+const second={...sample,id:crypto.randomUUID()};await call('inquiries','POST',second);
+r=await call('admin');check('idempotent form submission',r.body.inquiries.filter(i=>i.id===sample.id).length===1);
+r=await call('admin/inquiry','PATCH',{id:sample.id,status:'Confirmado'});check('manual appointment confirmation',r.status===200);
+r=await call('admin/inquiry','PATCH',{id:second.id,status:'Confirmado'});check('confirmed appointment conflict prevented',r.status===409);
+await call('admin/inquiry','PATCH',{id:sample.id,status:'Cancelado'});
+r=await call('admin/inquiry','PATCH',{id:second.id,status:'Confirmado'});check('cancel frees appointment slot',r.status===200);
+await call('admin/inquiry','PATCH',{id:second.id,status:'Cancelado'});
+r=await call('admin/block','POST',{date:'2099-12-21',time:'16:00'});check('block appointment slot',r.status===200);
+r=await call('inquiries','POST',{...sample,id:crypto.randomUUID(),date:'2099-12-21',time:'16:00'});check('blocked time rejects request',r.status===409);
+await call('admin/block','DELETE',{id:'2099-12-21 16:00'});
+const invalid=new FormData();invalid.set('file',new File(['<svg></svg>'],'bad.svg',{type:'image/svg+xml'}));r=await call('admin/upload','POST',invalid);check('unsafe image rejected',r.status===400);
+const valid=new FormData();valid.set('file',new File([await readFile('public/images/terracota.webp')],'dress.webp',{type:'image/webp'}));r=await call('admin/upload','POST',valid);check('safe R2 image upload',r.status===201&&r.body.url.startsWith('/api/media/'));
+const image=await fetch(base+r.body.url);check('uploaded image served',image.ok&&image.headers.get('content-type')==='image/webp');
+const csrf=await fetch(base+'/api/admin/import',{method:'POST',headers:{cookie,origin:'https://example.com'}});check('cross-origin write rejected',csrf.status===403);
+let rate;for(let n=0;n<10;n++){rate=await call('inquiries','POST',{...sample,id:crypto.randomUUID(),kind:'Contato'});if(rate.status===429)break;}check('submission rate limit',rate.status===429);
+console.log(passed+' integration checks passed.');

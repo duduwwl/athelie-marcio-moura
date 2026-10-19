@@ -1,0 +1,26 @@
+export type Dress = {id:string;name:string;reference:string;category:string[];color:string;sizes:string[];style:string;description:string;fabric:string;conditions:string;availability:string;images:string[];source:string;featured:boolean;published:boolean;created:string};
+export type SiteSettings = {heroTitle:string;heroText:string;heroImage:string;about:string;phone:string;address:string;instagram:string;hours:string;gallery:string[];categoryImages:string[];colors:string[];categories:string[];styles:string[]};
+export const defaults:SiteSettings = {
+heroTitle:'O seu momento.\nO seu vestido.',heroText:'Vestidos para celebrar quem você é. Descubra a nossa seleção de moda festa e encontre a peça que vai fazer parte da sua história.',heroImage:'/images/terracota.webp',
+about:'O Atheliê Márcio Moura é especializado em locação de vestidos de festa em Lavras, Minas Gerais. O acervo reúne modelos para madrinhas, formandas, debutantes e eventos sociais. Conheça a seleção pelo site e converse com a equipe para consultar tamanhos, datas e condições de locação.',
+phone:'5535991427253',address:'Rua Chagas Dória, 102, Loja 101 · Lavras – MG · CEP 37200-042',instagram:'https://www.instagram.com/atheliermarciomoura/',hours:'Atendimento mediante consulta. Fale conosco para combinar sua visita.',
+gallery:['/images/marinho.webp','/images/serenity-georgette.webp','/images/fucsia.webp'],categoryImages:['/images/sereia-esmeralda.webp','/images/fucsia.webp','/images/serenity-capa.webp','/images/oliva.webp'],
+colors:['Marrom','Lilás','Rosê','Fúcsia','Azul royal','Azul-marinho','Marsala','Azul serenity','Verde esmeralda','Terracota','Verde oliva'],categories:['Madrinhas','Formandas','Debutantes','Festas e eventos'],styles:['Longo','Midi','Curto','Sereia','Princesa','Evasê','Outros']};
+const origin='https://www.instagram.com/atheliermarciomoura/reel/';
+const make=(id:string,name:string,color:string,style:string,fabric:string,description:string,image:string,category=['Madrinhas','Festas e eventos'],featured=false):Dress=>({id,name,reference:'IG-'+id,color,style,fabric,description,images:['/images/'+image+'.webp'],category,featured,sizes:[],conditions:'',availability:'Sob consulta',source:origin+id+'/',published:true,created:'2026-10-19T19:00:00.000Z'});
+// Website descriptions, not official model names or store stock codes.
+// Only attributes visible in the matching Instagram publication. No prices or sizes inferred.
+export const instagramSelection:Dress[]=[
+make('DeXgbG7PQRA','Terracota · ombro a ombro','Terracota','Sereia','Crepe francês','Modelagem sereia, decote ombro a ombro e fenda em crepe francês.','terracota',['Madrinhas','Festas e eventos'],true),
+make('DeMKJyrBG_n','Esmeralda · capa assimétrica','Verde esmeralda','Longo','','Capa assimétrica e laço no ombro em um modelo verde esmeralda com movimento.','capa-esmeralda',['Madrinhas','Festas e eventos'],true),
+make('DeSXnYwP1Ho','Azul-marinho · cascata de jabôs','Azul-marinho','Longo','','Decote de um ombro só, drapeado delicado e cascata de jabôs junto à fenda.','marinho',['Madrinhas','Festas e eventos'],true),
+make('DduihtBvFQ1','Fúcsia · alfaiataria corseletada','Fúcsia','Longo','Alfaiataria','Estrutura corseletada em fúcsia com fenda. Uma silhueta que valoriza o desenho do corpo e a intensidade da cor.','fucsia',['Festas e eventos'],true),
+make('DeID802vOuF','Esmeralda · sereia em crepe','Verde esmeralda','Sereia','Crepe francês','Vestido em crepe francês com shape sereia, decote ombro a ombro e fenda.','sereia-esmeralda'),
+make('Dd7Tj5IPzvz','Serenity · capa fluida','Azul serenity','Longo','','Saia fluida com fenda e capa fixa no decote. Indicado na publicação para madrinhas, mães de noivos e convidadas.','serenity-capa'),
+make('Dd334tLp60r','Serenity · georgette','Azul serenity','Longo','Crepe georgette premium','Caimento leve, decote com sobreposição e fenda frontal em crepe georgette azul serenity.','serenity-georgette'),
+make('DdxI_z2PpVW','Terracota · jabôs e drapê','Terracota','Longo','','Decote de um ombro só, leve drapeado e uma cascata de jabôs sob a fenda.','terracota-jabos'),
+make('DdpRURdPgDJ','Oliva · ombro único','Verde oliva','Longo','Tecido acetinado','Ombro único com pala caída e fenda em tecido acetinado verde oliva.','oliva',['Madrinhas','Formandas','Festas e eventos']),
+make('Ddeb2P3BF6f','Esmeralda · zibeline drapeada','Verde esmeralda','Longo','Zibeline','Decote tomara que caia com drapeado sob o busto e fenda, em zibeline verde esmeralda.','zibeline'),
+make('Del1Ru-BT7N','Verde · drapê egípcio','Verde esmeralda','Longo','','Drapeado egípcio e pala frontal caída. Consulte a equipe para confirmar o tom e os detalhes do tecido.','drape',['Festas e eventos'])];
+export function whatsapp(phone:string,message:string){return 'https://wa.me/'+phone.replace(/\D/g,'')+'?text='+encodeURIComponent(message);}
+export function dressMessage(d:Dress){return 'Olá! Vi o vestido '+d.name+', identificação no site '+d.reference+', no Atheliê Márcio Moura e gostaria de consultar a disponibilidade para meu evento. Publicação: '+d.source;}
