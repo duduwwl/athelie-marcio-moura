@@ -7,7 +7,7 @@ Skills utilizadas: Refero Design e Sites; boas práticas React e verificação. 
 ## Decisões implementadas
 
 - Campanha em colunas assimétricas com fotos verticais no enquadramento original, Bodoni Moda e interface Manrope. Fundo claro, bordas finas e cabeçalho preto; o título leva direto ao atendimento de prova no ateliê.
-- Distribuição exclusiva das onze fotografias entre campanha, seleção, tecidos e Instagram. Diretório de ocasiões sem imagens. Imagens novas configuradas no painel também passam por deduplicação. Imagem única no produto não gera miniatura repetida.
+- Distribuição exclusiva das onze fotografias entre campanha, seleção, tecidos e Instagram. Cada imagem usa suas dimensões reais para não cortar vestidos nem ampliar o recorte; diretório de ocasiões fica sem imagens. Imagens novas configuradas no painel também passam por deduplicação.
 - Catálogo regular de três colunas para comparar peças; duas no celular, com busca, filtros e favoritos existentes.
 - Entrada curta da campanha, transições de categorias e indicadores com Motion. O conteúdo de todas as seções permanece visível mesmo se a observação de rolagem falhar; animações respeitam prefers-reduced-motion e a lente desativa em toque.
 
@@ -15,7 +15,7 @@ Skills utilizadas: Refero Design e Sites; boas práticas React e verificação. 
 
 [Watermelon UI](https://ui.watermelon.sh/api/docs): fontes oficiais obtidas de https://registry.watermelon.sh/r/carousel-navigator.json, continuous-tabs.json e shimmer-button.json. Cópias originais em vendor/watermelon; adaptações em components/watermelon. Carousel Navigator controla o Embla real; Continuous Tabs controla categorias; Shimmer Button/Link é usado em chamadas e formulário. Motion está instalado como dependência. Licença MIT oficial copiada para vendor/watermelon/LICENSE.
 
-[Canvas UI Glass](https://canvasui.dev/docs): fonte oficial https://canvasui.dev/r/glass-react.json em components/canvasui/Glass.tsx. A lente é montada sob demanda na foto de tecido em computadores com ponteiro fino. O componente oferece fallback DOM/WebGL em navegadores sem html-in-canvas; não são ativadas flags experimentais. Licença informada pelo fornecedor: MIT + Commons Clause, uso em produto permitido, redistribuição comercial como biblioteca vedada.
+[Canvas UI Glass](https://canvasui.dev/docs): fonte oficial https://canvasui.dev/r/glass-react.json preservada em components/canvasui/Glass.tsx para referência. Foi removida da página publicada: o WebGL do componente gerava uma exceção fatal ao chegar à seção de tecido e desmontava toda a aplicação em alguns navegadores. A foto agora usa uma interação leve do Motion, sem canvas e sem bloquear a rolagem.
 
 ## Rastreabilidade das imagens
 

@@ -1,4 +1,4 @@
-export type Dress = {id:string;name:string;reference:string;category:string[];color:string;sizes:string[];style:string;description:string;fabric:string;conditions:string;availability:string;images:string[];source:string;featured:boolean;published:boolean;created:string};
+export type Dress = {id:string;name:string;reference:string;category:string[];color:string;sizes:string[];style:string;description:string;fabric:string;conditions:string;availability:string;images:string[];imageSize?:[number,number];source:string;featured:boolean;published:boolean;created:string};
 export type SiteSettings = {heroTitle:string;heroText:string;heroImage:string;about:string;phone:string;address:string;instagram:string;hours:string;gallery:string[];categoryImages:string[];colors:string[];categories:string[];styles:string[]};
 export const defaults:SiteSettings = {
 heroTitle:'O seu momento.\nO seu vestido.',heroText:'Vestidos para celebrar quem você é. Descubra a nossa seleção de moda festa e encontre a peça que vai fazer parte da sua história.',heroImage:'/images/terracota.webp',
@@ -7,7 +7,8 @@ phone:'5535991427253',address:'Rua Chagas Dória, 102, Loja 101 · Lavras – MG
 gallery:['/images/marinho.webp','/images/serenity-georgette.webp','/images/fucsia.webp'],categoryImages:['/images/sereia-esmeralda.webp','/images/fucsia.webp','/images/serenity-capa.webp','/images/oliva.webp'],
 colors:['Marrom','Lilás','Rosê','Fúcsia','Azul royal','Azul-marinho','Marsala','Azul serenity','Verde esmeralda','Terracota','Verde oliva'],categories:['Madrinhas','Formandas','Debutantes','Festas e eventos'],styles:['Longo','Midi','Curto','Sereia','Princesa','Evasê','Outros']};
 const origin='https://www.instagram.com/atheliermarciomoura/reel/';
-const make=(id:string,name:string,color:string,style:string,fabric:string,description:string,image:string,category=['Madrinhas','Festas e eventos'],featured=false):Dress=>({id,name,reference:'IG-'+id,color,style,fabric,description,images:['/images/'+image+'.webp'],category,featured,sizes:[],conditions:'',availability:'Sob consulta',source:origin+id+'/',published:true,created:'2026-10-19T19:00:00.000Z'});
+const photoHeights:Record<string,number>={terracota:1138,drape:922,'capa-esmeralda':960,marinho:1138,fucsia:800,'sereia-esmeralda':1138,'serenity-georgette':960,zibeline:800,'serenity-capa':800,'terracota-jabos':800,oliva:800};
+const make=(id:string,name:string,color:string,style:string,fabric:string,description:string,image:string,category=['Madrinhas','Festas e eventos'],featured=false):Dress=>({id,name,reference:'IG-'+id,color,style,fabric,description,images:['/images/'+image+'.webp'],imageSize:[640,photoHeights[image]||1136],category,featured,sizes:[],conditions:'',availability:'Sob consulta',source:origin+id+'/',published:true,created:'2026-10-19T19:00:00.000Z'});
 // Website descriptions, not official model names or store stock codes.
 // Only attributes visible in the matching Instagram publication. No prices or sizes inferred.
 export const instagramSelection:Dress[]=[

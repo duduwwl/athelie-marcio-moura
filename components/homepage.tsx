@@ -12,7 +12,7 @@ type Props={dresses:Dress[];settings:SiteSettings;renderCard:(d:Dress)=>ReactNod
 export function allocateHomeImages(dresses:Dress[],settings:SiteSettings){
 const used=new Set<string>(),available=dresses.filter(d=>d.published&&d.images[0]);const byImage=(src:string)=>available.find(d=>d.images[0]===src);
 const take=(preferred?:Dress)=>{const d=preferred&&!used.has(preferred.images[0])?preferred:available.find(d=>!used.has(d.images[0]));if(d)used.add(d.images[0]);return d;};
-const custom=(src:string,i:number):Dress=>({...available[0],id:'editorial-'+i,name:'Acervo do ateliê',images:[src],color:'',style:'',source:settings.instagram});
+const custom=(src:string,i:number):Dress=>({...available[0],id:'editorial-'+i,name:'Acervo do ateliê',images:[src],imageSize:undefined,color:'',style:'',source:settings.instagram});
 const hero=[take(byImage(settings.heroImage)||(settings.heroImage?custom(settings.heroImage,0):undefined)),take(byImage('/images/drape.webp'))].filter(Boolean) as Dress[];
 const editorial=[take(byImage('/images/serenity-georgette.webp')),take(byImage('/images/zibeline.webp'))].filter(Boolean) as Dress[];
 const collection=available.filter(d=>d.featured&&!used.has(d.images[0])).map(d=>take(d)).filter(Boolean) as Dress[];while(collection.length<4){const next=take();if(!next)break;collection.push(next);}
@@ -20,7 +20,7 @@ const customGallery=[...new Set(settings.gallery)].filter(src=>src&&!available.s
 const journal=[...customGallery,...available.filter(d=>!used.has(d.images[0])).slice(0,3).map(d=>take(d)).filter(Boolean)].slice(0,3) as Dress[];
 return {hero,editorial,collection,journal};
 }
-function Image({dress,priority=false}:{dress:Dress;priority?:boolean}){const src=import.meta.env.BASE_URL+dress.images[0].replace(/^\//,'');return <img src={src} alt={dress.name+' — '+dress.color} loading={priority?'eager':'lazy'} fetchPriority={priority?'high':'auto'} decoding="async" width={640} height={1000}/>;}
+function Image({dress,priority=false}:{dress:Dress;priority?:boolean}){const src=import.meta.env.BASE_URL+dress.images[0].replace(/^\//,'');return <img src={src} alt={dress.name+' — '+dress.color} loading={priority?'eager':'lazy'} fetchPriority={priority?'high':'auto'} decoding="async" width={dress.imageSize?.[0]} height={dress.imageSize?.[1]}/>;}
 export default function HomePage({dresses,settings,renderCard}:Props){
 const media=useMemo(()=>allocateHomeImages(dresses,settings),[dresses,settings]);const reduced=useReducedMotion();const visit=whatsapp(settings.phone,'Olá! Gostaria de conhecer os vestidos do Atheliê Márcio Moura e combinar uma visita.');
 return <div className="fashion-home">
