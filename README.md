@@ -86,3 +86,9 @@ WhatsApp abre uma mensagem para a pessoa enviar; o site não envia mensagens em 
 No navegador: busca por terracota, filtro de cor, favoritos após recarga, menu mobile, página de produto, ampliação, formulário de locação e confirmação de recebimento. Revisão de largura de 320 a 2560 px e console.
 
 Veja DESIGN.md para decisões visuais e a origem de cada imagem.
+
+## GitHub Pages
+
+The public Pages deployment is assembled from `static/` and the original product photos. It provides the dress catalog, category and text filters, saved favorites, Instagram publication links, and WhatsApp contact. Because GitHub Pages is static hosting, requests open WhatsApp for confirmation instead of being saved in the app database; the Pages build does not include the private `.dev.vars` file.
+
+The Pages URL is `https://duduwwl.github.io/athelie-marcio-moura/`. Pushes to `main` publish through `.github/workflows/pages.yml`.
