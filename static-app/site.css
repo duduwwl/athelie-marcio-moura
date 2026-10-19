@@ -69,6 +69,16 @@ html{scroll-padding-top:115px}body{background:var(--ivory);color:var(--ink)}butt
 @media(max-width:640px){.desktop-nav{left:0;top:100%;transform:none}.campaign{grid-template-columns:1fr;gap:5px;padding:18px 20px 53px}.campaign-rack-wrap{grid-column:1;grid-row:1}.campaign-sign{grid-column:1;grid-row:2}.rack-stage{height:min(105vw,450px);min-height:340px}.rack-dress{--rack-depth:clamp(115px,34vw,165px);width:clamp(67px,19vw,84px);height:clamp(250px,70vw,305px)}.garment{width:clamp(43px,13vw,58px);height:clamp(170px,49vw,215px)}.rack-control{width:36px;height:36px}.rack-detail{padding:22px 2px 7px}.rack-detail h2{font-size:clamp(32px,9vw,43px)}.rack-detail-copy{max-width:450px;font-size:12px}.campaign-sign{padding:25px 2px 0}.campaign-sign>div{width:100%}.campaign-sign>div>p:first-child{font-size:8px;margin-bottom:15px}.campaign-sign h1{font-size:clamp(52px,12.5vw,70px);max-width:460px}.campaign-sign h1 span+span{margin-left:10px}.campaign-intro{font-size:12px}.campaign-scroll{bottom:12px}}
 @media(prefers-reduced-motion:reduce){.rack-dress,.rack-control,.rack-detail-link svg{transition:none}.rack-carousel{will-change:auto}}
 
+/* Show the real atelier portraits on the hangers, at their original aspect ratio. */
+.rack-dress{padding:15px 6px 8px;overflow:hidden;user-select:none;-webkit-user-select:none}
+.rack-dress-photo{display:block;width:100%;height:clamp(205px,23vw,265px);flex:none;object-fit:contain;object-position:center;background:#eee9e1;mix-blend-mode:multiply;pointer-events:none}
+.rack-dress.is-selected .rack-dress-photo{transform:scale(1.045);transition:transform .35s cubic-bezier(.2,.65,.3,1)}
+.rack-dress:not(.is-selected){opacity:.76}
+.rack-dress-label{position:relative;z-index:1;width:100%;padding:4px 1px 0;background:linear-gradient(transparent,#f4f0e9 20%)}
+@media(max-width:850px){.rack-dress{padding-top:14px}.rack-dress-photo{height:198px}}
+@media(max-width:640px){.rack-dress{padding:12px 4px 7px}.rack-dress-photo{height:clamp(180px,50vw,220px)}.rack-dress-label{font-size:6px}.rack-dress-label small{font-size:5px}}
+@media(prefers-reduced-motion:reduce){.rack-dress.is-selected .rack-dress-photo{transition:none}}
+
 /* Campaign layout follows the portrait format of the original Instagram photos. */
 .campaign{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(340px,.86fr);align-items:center;gap:clamp(38px,5.4vw,92px);width:100%;max-width:1780px;height:auto;min-height:0;max-height:none;margin:0 auto;padding:42px var(--gutter) 55px;background:var(--ivory);isolation:auto}
 .campaign-photos{position:relative;height:auto;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.61fr);align-items:center;gap:clamp(12px,1.7vw,25px)}
