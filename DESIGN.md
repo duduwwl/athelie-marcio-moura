@@ -6,10 +6,10 @@ Skills utilizadas: Refero Design e Sites; boas práticas React e verificação. 
 
 ## Decisões implementadas
 
-- Campanha com duas fotografias grandes, assinatura sobreposta, Bodoni Moda e interface Manrope. Fundo claro, bordas finas e cabeçalho preto.
+- Campanha em colunas assimétricas com fotos verticais no enquadramento original, Bodoni Moda e interface Manrope. Fundo claro, bordas finas e cabeçalho preto; o título leva direto ao atendimento de prova no ateliê.
 - Distribuição exclusiva das onze fotografias entre campanha, seleção, tecidos e Instagram. Diretório de ocasiões sem imagens. Imagens novas configuradas no painel também passam por deduplicação. Imagem única no produto não gera miniatura repetida.
 - Catálogo regular de três colunas para comparar peças; duas no celular, com busca, filtros e favoritos existentes.
-- Entrada de campanha, revelação de seções, transições de categorias e indicadores com Motion. Respeito a prefers-reduced-motion; lente desativada em toque.
+- Entrada curta da campanha, transições de categorias e indicadores com Motion. O conteúdo de todas as seções permanece visível mesmo se a observação de rolagem falhar; animações respeitam prefers-reduced-motion e a lente desativa em toque.
 
 ## Componentes efetivamente integrados
 
