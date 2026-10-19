@@ -15,13 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Assemble static site
-        run: |
-          mkdir -p _site/images
-          cp static/index.html static/site.js static/pages.css _site/
-          cp app/globals.css app/fashion.css _site/
-          cp public/favicon.svg _site/
-          cp public/images/* _site/images/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build static site
+        run: npm run build:pages
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
