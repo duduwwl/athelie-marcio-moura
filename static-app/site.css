@@ -127,11 +127,15 @@ html{scroll-padding-top:115px}body{background:var(--ivory);color:var(--ink)}butt
 .atelier-look .atelier-photo img{transition:transform .55s cubic-bezier(.22,.68,0,1),filter .35s,opacity .35s}
 .atelier-look.is-selected .atelier-photo{background:#f6f3ec;box-shadow:inset 0 0 0 1px #b59c70,0 12px 26px #34291c14}
 .atelier-look.is-selected .atelier-photo img{opacity:1}
-.rack-detail{background:linear-gradient(105deg,#eadbb5 0%,#d8c18d 58%,#eadbb5 100%);border-color:#b89b6a}
+.rack-detail{padding:20px 22px 18px;background:linear-gradient(112deg,#f7dd73 0%,#e0b239 38%,#cb941b 62%,#edc856 100%);border-color:#a87310;box-shadow:inset 0 1px #fff0ae,0 5px 18px #573b0a18;color:#281d08}
+.rack-detail .eyebrow,.rack-detail-color,.rack-detail-copy,.rack-detail-meta,.rack-detail-actions>p{color:#48300a}
+.rack-detail-actions>p{border-color:#80590966}
+.rack-detail-link,.rack-detail-whatsapp{border-color:#493208;color:#281d08}
 .rack-detail-meta{display:flex;flex-wrap:wrap;gap:9px 22px;margin-top:13px;color:#716b62;font-size:9px}
 .rack-detail-meta span{display:grid;gap:4px}
 .rack-detail-meta strong{font-size:10px;font-weight:500;color:var(--ink)}
-.rack-detail-actions>p:first-child{padding:11px 12px;background:#cdb57f;border-bottom:0;color:#352d1c}
+.rack-detail-actions>p:first-child{padding:11px 12px;background:#b88118;border-bottom:0;color:#231802}
 .rack-detail-actions>p:first-child strong{font-size:18px}
-@media(max-width:640px){.rack-detail{background:linear-gradient(105deg,#eadbb5 0%,#d8c18d 58%,#eadbb5 100%)}.rack-detail-meta{gap:8px 18px}.rack-detail-actions>p:first-child{padding:10px}}
+@media(max-width:640px){.rack-detail{padding:17px 16px 16px;background:linear-gradient(112deg,#f7dd73 0%,#e0b239 38%,#cb941b 62%,#edc856 100%)}.rack-detail-meta{gap:8px 18px}.rack-detail-actions>p:first-child{padding:10px}.atelier-control{min-width:62px;min-height:44px}.catalog-select select,.catalog-clear{min-height:44px}}
+@media(max-width:370px){.whatsapp-float{width:auto;height:44px;padding:0 12px;border-radius:0}.whatsapp-float span{display:inline}.whatsapp-float svg{display:none}}
 
