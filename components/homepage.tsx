@@ -48,4 +48,5 @@ function DressRack({dresses,phone}:{dresses:Dress[];phone:string}){
  const choose=(index:number)=>{const next=Math.max(0,Math.min(rack.length-1,index));embla?.scrollTo(next);setSelected(next);};
  const keyMove=(event:React.KeyboardEvent<HTMLDivElement>)=>{if(event.key==='ArrowLeft'){event.preventDefault();choose(selected-1)}else if(event.key==='ArrowRight'){event.preventDefault();choose(selected+1)}};
  const colors:Record<string,string>={'Terracota':'#a95f47','Verde esmeralda':'#155c47','Azul-marinho':'#27334a','Fúcsia':'#a52d70','Azul serenity':'#a5becf','Verde oliva':'#777d57'};
- const contact=selectedDress?whatsapp(phone,dressMessage(selectedD
+ const contact=selectedDress?whatsapp(phone,dressMessage(selectedDress)):'';
+ return 
