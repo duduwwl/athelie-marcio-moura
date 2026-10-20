@@ -17,4 +17,11 @@ make('DeMKJyrBG_n','Esmeralda · capa assimétrica','Verde esmeralda','Longo',''
 make('DeSXnYwP1Ho','Azul-marinho · cascata de jabôs','Azul-marinho','Longo','','Decote de um ombro só, drapeado delicado e cascata de jabôs junto à fenda.','marinho',['Madrinhas','Festas e eventos'],true),
 make('DduihtBvFQ1','Fúcsia · alfaiataria corseletada','Fúcsia','Longo','Alfaiataria','Estrutura corseletada em fúcsia com fenda. Uma silhueta que valoriza o desenho do corpo e a intensidade da cor.','fucsia',['Festas e eventos'],true),
 make('DeID802vOuF','Esmeralda · sereia em crepe','Verde esmeralda','Sereia','Crepe francês','Vestido em crepe francês com shape sereia, decote ombro a ombro e fenda.','sereia-esmeralda'),
-make('Dd7Tj5IPzvz','Serenity · capa fluida','Azul serenity','Longo','','Saia fluida com fenda e capa fixa no decote. Indicado na publicação para madrinhas, mães de noivos e convidadas.','serenit
+make('Dd7Tj5IPzvz','Serenity · capa fluida','Azul serenity','Longo','','Saia fluida com fenda e capa fixa no decote. Indicado na publicação para madrinhas, mães de noivos e convidadas.','serenity-capa'),
+make('Dd334tLp60r','Serenity · georgette','Azul serenity','Longo','Crepe georgette premium','Caimento leve, decote com sobreposição e fenda frontal em crepe georgette azul serenity.','serenity-georgette'),
+make('DdxI_z2PpVW','Terracota · jabôs e drapê','Terracota','Longo','','Decote de um ombro só, leve drapeado e uma cascata de jabôs sob a fenda.','terracota-jabos'),
+make('DdpRURdPgDJ','Oliva · ombro único','Verde oliva','Longo','Tecido acetinado','Ombro único com pala caída e fenda em tecido acetinado verde oliva.','oliva',['Madrinhas','Formandas','Festas e eventos']),
+make('Ddeb2P3BF6f','Esmeralda · zibeline drapeada','Verde esmeralda','Longo','Zibeline','Decote tomara que caia com drapeado sob o busto e fenda, em zibeline verde esmeralda.','zibeline'),
+make('Del1Ru-BT7N','Verde · drapê egípcio','Verde esmeralda','Longo','','Drapeado egípcio e pala frontal caída. Consulte a equipe para confirmar o tom e os detalhes do tecido.','drape',['Festas e eventos'])];
+export function whatsapp(phone:string,message:string){return 'https://wa.me/'+phone.replace(/\D/g,'')+'?text='+encodeURIComponent(message);}
+export function dressMessage(d:Dress){return 'Olá! Vi o vestido '+d.name+', identificação no site '+d.reference+', no Atheliê Márcio Moura e gostaria de consultar a disponibilidade para meu evento. Publicação: '+d.source;}
