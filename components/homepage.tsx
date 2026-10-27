@@ -1,7 +1,7 @@
 'use client';
 import {useCallback,useEffect,useMemo,useState,type ReactNode} from 'react';
 import Link from 'next/link';
-import {ArrowUpRight,ArrowRight,ArrowDown,ChevronLeft,ChevronRight} from 'lucide-react';
+import {ArrowUpRight,ArrowRight} from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import {motion,useReducedMotion} from 'motion/react';
 import {CarouselNavigator} from './watermelon/carousel-navigator';
@@ -9,7 +9,8 @@ import {ShimmerLink} from './watermelon/shimmer-button';
 import {FabricLens} from './fabric-lens';
 import {InView} from './core/in-view';
 import {TextEffect} from './core/text-effect';
-import {dressMessage,whatsapp,type Dress,type SiteSettings} from '../lib/catalog';
+import {DressRack} from './dress-rack';
+import {whatsapp,type Dress,type SiteSettings} from '../lib/catalog';
 type Props={dresses:Dress[];settings:SiteSettings;renderCard:(d:Dress)=>ReactNode};
 export function allocateHomeImages(dresses:Dress[],settings:SiteSettings){
 const used=new Set<string>(),available=dresses.filter(d=>d.published&&d.images[0]);const byImage=(src:string)=>available.find(d=>d.images[0]===src);
@@ -38,16 +39,4 @@ return <div className="fashion-home">
 function CollectionRail({dresses,renderCard}:{dresses:Dress[];renderCard:(d:Dress)=>ReactNode}){
 const [ref,embla]=useEmblaCarousel({align:'start',containScroll:'trimSnaps',dragFree:false});const [selected,setSelected]=useState(0),[snaps,setSnaps]=useState(1);const select=useCallback(()=>{setSelected(embla?.selectedScrollSnap()||0);setSnaps(embla?.scrollSnapList().length||1);},[embla]);useEffect(()=>{if(!embla)return;select();embla.on('select',select).on('reInit',select);return()=>{embla.off('select',select).off('reInit',select);};},[embla,select]);
 return <div className="collection-rail"><div className="embla-viewport" ref={ref}><div className="embla-track">{dresses.map((d,i)=><div className="embla-slide" key={d.id}><InView delay={i*.05}>{renderCard(d)}</InView></div>)}</div></div><div className="rail-bottom"><span>CONSULTE A DISPONIBILIDADE PARA A SUA DATA</span><CarouselNavigator totalSlides={snaps} currentIndex={selected} onIndexChange={i=>embla?.scrollTo(i)}/></div></div>;
-}
-
-function DressRack({dresses,phone}:{dresses:Dress[];phone:string}){
- const rack=dresses.filter(d=>d.published&&d.images.length).slice(0,11);const [selected,setSelected]=useState(0);const reduced=useReducedMotion();
- const [viewport,embla]=useEmblaCarousel({align:'center',containScroll:false,loop:false,duration:30,skipSnaps:false});const selectedDress=rack[selected]||rack[0];
- const sync=useCallback(()=>{if(embla)setSelected(embla.selectedScrollSnap());},[embla]);
- useEffect(()=>{if(!embla)return;sync();embla.on('select',sync).on('reInit',sync);return()=>{embla.off('select',sync).off('reInit',sync);};},[embla,sync]);
- const choose=(index:number)=>{const next=Math.max(0,Math.min(rack.length-1,index));embla?.scrollTo(next);setSelected(next);};
- const keyMove=(event:React.KeyboardEvent<HTMLDivElement>)=>{if(event.key==='ArrowLeft'){event.preventDefault();choose(selected-1)}else if(event.key==='ArrowRight'){event.preventDefault();choose(selected+1)}};
- const colors:Record<string,string>={'Terracota':'#a95f47','Verde esmeralda':'#155c47','Azul-marinho':'#27334a','Fúcsia':'#a52d70','Azul serenity':'#a5becf','Verde oliva':'#777d57'};
- const contact=selectedDress?whatsapp(phone,dressMessage(selectedDress)):'';
- return <div className="campaign-rack-wrap atelier-rack"><div className="atelier-rack-head"><span>ACERVO DO ATELIÊ</span><span>ARRASTE PARA EXPLORAR</span></div><div className="atelier-rail" role="region" tabIndex={0} onKeyDown={keyMove} aria-label="Cabideiro interativo. Arraste para explorar; use as setas do teclado para navegar."><div className="atelier-metal"><i/><b/><i/></div><div className="atelier-viewport" ref={viewport}><div className="atelier-track">{rack.map((dress,index)=><div className="atelier-slide" key={dress.id} style={{transform:`perspective(900px) rotateY(${index===selected?0:index<selected?-7:7}deg) scale(${index===selected?1:.91})`}}><motion.button type="button" className={'atelier-look '+(selected===index?'is-selected':'')} onClick={()=>choose(index)} aria-pressed={selected===index} aria-label={`Selecionar ${dress.name}, ${dress.color}, ${dress.style}`} initial={reduced?false:{opacity:0,y:18}} whileInView={reduced?undefined:{opacity:1,y:0}} viewport={{once:true,amount:.15}} transition={{duration:.48,delay:reduced?0:Math.min(index*.045,.3),ease:[.22,.68,0,1]}}><span className="atelier-photo"><img src={import.meta.env.BASE_URL+(dress.rackImage||dress.images[0]).replace(/^\//,'')} alt={`${dress.name}, vestido ${dress.style.toLowerCase()} na cor ${dress.color}, pendurado em cabide`} width={dress.imageSize?.[0]||640} height={dress.imageSize?.[1]||1000} loading={index<3?'eager':'lazy'} fetchPriority={index===selected?'high':'auto'} decoding="async"/></span><span className="atelier-look-caption"><span>{dress.color}</span><small>{dress.style}</small></span></motion.button></div>)}</div></div><button className="atelier-control atelier-prev" type="button" aria-label="Vestido anterior" onClick={()=>choose(selected-1)} disabled={selected===0}>ANTERIOR</button><button className="atelier-control atelier-next" type="button" aria-label="Próximo vestido" onClick={()=>choose(selected+1)} disabled={selected===rack.length-1}>PRÓXIMO</button><span className="atelier-count" aria-live="polite">{String(selected+1).padStart(2,'0')} / {String(rack.length).padStart(2,'0')}</span></div><div className="atelier-rack-foot"><span>PUXE O TRILHO PARA O LADO</span><span>TOQUE EM UM MODELO PARA VER OS DETALHES</span></div>{selectedDress?<motion.aside key={selectedDress.id} className="rack-detail" initial={reduced?false:{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{duration:reduced?0:.3}} aria-live="polite"><div><p className="eyebrow">MODELO EM DESTAQUE</p><h2><TextEffect key={selectedDress.id}>{selectedDress.name}</TextEffect></h2><div className="rack-detail-color"><i style={{background:colors[selectedDress.color]||'#887766'}}/><span>{selectedDress.color} · {selectedDress.style}</span></div><p className="rack-detail-copy">{selectedDress.description}</p><div className="rack-detail-meta"><span>Tecido<strong>{selectedDress.fabric||'Consulte a equipe'}</strong></span><span>Disponibilidade<strong>Consulte para sua data</strong></span></div><small className="demo-note">Preço fictício para demonstração</small></div><div className="rack-detail-actions"><p>Locação · valor demonstrativo <strong>{new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(selectedDress.rentalPrice)}</strong></p><p>Tamanhos <strong>{selectedDress.sizes.length?selectedDress.sizes.join(", "):"consulte a equipe"}</strong></p><Link className="rack-detail-link" href={'/vestido/'+selectedDress.id}>VER DETALHES <ArrowRight size={17}/></Link><a className="rack-detail-whatsapp" href={contact} target="_blank" rel="noopener noreferrer">CONSULTAR NO WHATSAPP <ArrowUpRight size={15}/></a></div></motion.aside>:null}</div>;
 }

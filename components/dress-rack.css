@@ -1,0 +1,69 @@
+/* Arara interativa — trilho cromado sobre painel perfurado, inspirado em araras de loja. */
+.arara{order:1;width:100%;min-width:0;align-self:stretch}
+.arara-board{position:relative;margin-top:14px;overflow:hidden;border:1px solid #ddd6ca;border-radius:6px;
+ background:
+  radial-gradient(circle at 50% 50%,transparent 0 2.6px,#d8d0c2 2.8px 3.6px,transparent 3.8px) 0 0/30px 30px,
+  linear-gradient(180deg,#f1ede6 0%,#ebe6dd 100%);
+ box-shadow:inset 0 1px 0 #fffaf2,0 24px 50px -30px #3b2f1f40}
+.arara-board:before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 75% at 50% 18%,#ffffff66,transparent 60%);z-index:0}
+.arara-scroller{position:relative;z-index:1;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.arara-scroller::-webkit-scrollbar{display:none}
+.arara-rack{position:relative;margin:0 auto;touch-action:pan-x pan-y;user-select:none;-webkit-user-select:none}
+
+/* Trilho cromado */
+.arara-rod{position:absolute;height:10px;z-index:5;pointer-events:none}
+.arara-tube{position:absolute;inset:0 6px;border-radius:6px;
+ background:linear-gradient(180deg,#6f7276 0%,#e9ecef 22%,#ffffff 34%,#a9adb2 58%,#7c8085 78%,#c9ccd0 100%);
+ box-shadow:0 7px 9px -4px #2d241826,0 1px 0 #ffffff99 inset}
+.arara-cap{position:absolute;top:-3px;width:12px;height:16px;border-radius:3px;
+ background:linear-gradient(180deg,#5f6266 0%,#dfe2e5 30%,#ffffff 42%,#9a9ea3 70%,#6d7075 100%);box-shadow:0 4px 6px -2px #2d241830}
+.arara-cap-l{left:0}.arara-cap-r{right:0}
+.arara-flange{position:absolute;top:-10px;width:8px;height:30px;border-radius:2px;
+ background:linear-gradient(90deg,#8c9095,#f4f5f6 40%,#b6babe 70%,#80848a);box-shadow:3px 5px 8px -3px #2d241833}
+.arara-flange-l{left:-6px}.arara-flange-r{right:-6px}
+
+/* Peças */
+.arara-item{position:absolute;left:0;width:0;height:var(--arara-item-h);transform-origin:0 0;will-change:transform;pointer-events:none}
+.arara-drop{position:absolute;left:0;top:0;display:block;transform:translateX(-50%);animation:arara-drop .9s cubic-bezier(.2,.75,.25,1.15) both}
+.arara-drop img{display:block;max-width:none;object-fit:contain;object-position:top center;filter:drop-shadow(0 14px 12px #3a2c1a26);transition:filter .35s}
+.arara-item.is-active .arara-drop img{filter:drop-shadow(0 22px 18px #3a2c1a3d)}
+@keyframes arara-drop{from{opacity:0;transform:translateX(-50%) translateY(-26px) rotate(-3deg)}to{opacity:1;transform:translateX(-50%) translateY(0) rotate(0)}}
+
+/* Áreas de clique: uma coluna por cabide, estáveis enquanto as peças se movem. */
+.arara-slot{position:absolute;z-index:60;padding:0;border:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.arara-slot:focus{outline:none}
+.arara-slot:focus-visible{outline:1px dashed #6f6556;outline-offset:-4px;border-radius:4px}
+.arara-slot:hover{color:inherit}
+
+.arara-caption{position:absolute;left:0;z-index:50;pointer-events:none;white-space:nowrap;will-change:transform}
+.arara-caption span{display:block;padding:3px 9px;border-radius:99px;background:#f7f3ecdd;color:#4b443a;font-size:10px;letter-spacing:.06em;box-shadow:0 0 0 1px #d8d0c4}
+
+/* Botão central + contador */
+.arara-actions{position:relative;z-index:2;display:flex;justify-content:center;align-items:center;padding:4px 16px 16px}
+.arara-pill{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 20px;border:1px solid #3a352e;border-radius:99px;background:#f6f2eb;color:var(--ink);font-size:9px;letter-spacing:.14em;box-shadow:0 3px 0 -1px #3a352e22}
+.arara-pill:hover{background:#2b2823;color:#f6f2eb}
+.arara-pill:focus-visible{outline:2px solid #896e4f;outline-offset:3px}
+.arara-count{position:absolute;right:18px;bottom:24px;color:#7a7266;font-size:8px;letter-spacing:.14em;font-variant-numeric:tabular-nums}
+
+/* Faixa corrida */
+.arara-marquee{position:relative;z-index:2;overflow:hidden;background:#2b2823;color:#efe7d8;padding:9px 0}
+.arara-marquee-track{display:flex;width:max-content;animation:arara-marquee 42s linear infinite}
+.arara-marquee-track>span{display:flex;flex:none}
+.arara-marquee em{display:inline-flex;align-items:center;gap:22px;padding-right:22px;font-size:9px;font-weight:600;font-style:italic;letter-spacing:.12em;white-space:nowrap}
+.arara-marquee b{font-weight:400;color:#c6a768}
+@keyframes arara-marquee{to{transform:translateX(-50%)}}
+.arara-board:hover .arara-marquee-track{animation-play-state:paused}
+
+.arara .rack-detail{margin-top:18px}
+
+@media(max-width:719px){
+ .arara-board{margin-top:10px;border-radius:4px;background-size:24px 24px,auto}
+ .arara-caption span{font-size:9px}
+ .arara-count{position:static;margin-left:12px}
+ .arara-actions{padding:2px 12px 14px}
+ .arara-pill{min-height:44px;padding:0 18px;font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .arara-drop{animation:none}
+ .arara-marquee-track{animation:none}
+}
